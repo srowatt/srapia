@@ -64,21 +64,32 @@ _fork:
 _write:
   mov ebx, esi              ; move file descriptor into ebx (accepted socket id)
   push edx                  ; push 0 dec onto stack then push a bunch of ascii (http headers & reponse body)
-  push dword 0x0a0d3e31     ; [\n][\r]>1
-  push dword 0x682f3c21     ; h/<!
-  push dword 0x64334e77     ; d3Nw
-  push dword 0x503e3168     ; P>1h
-  push dword 0x3c0a0d0a     ; <[\n][\r][\n]
-  push dword 0x0d6c6d74     ; [\r]lmt
-  push dword 0x682f7478     ; h/tx
-  push dword 0x6574203a     ; et :
+                            ;
+                            ; HTTP/1.0 200 OK
+                            ; Content-Type: application/json
+                            ;
+                            ; {"response":"Hello World!!"}
+                            ;
+  push dword 0x0a0d7d22     ; [\n][\r]}"
+  push dword 0x2121646c     ; !!dl
+  push dword 0x726f5720     ; roW
+  push dword 0x6f6c6c65     ; olle
+  push dword 0x223a2248     ; H":"
+  push dword 0x65736e6f     ; esno
+  push dword 0x70736572     ; pser
+  push dword 0x227b0a0d     ; "{[\n][\r]
+  push dword 0x0a0d6e6f     ; [\n][\r]no
+  push dword 0x736a2f6e     ; sj/n
+  push dword 0x6f697461     ; oita
+  push dword 0x63696c70     ; cilp
+  push dword 0x7061203a     ; pa :
   push dword 0x65707954     ; epyT
   push dword 0x2d746e65     ; -tne
   push dword 0x746e6f43     ; tnoC
   push dword 0x0a4b4f20     ; \nKO
   push dword 0x30303220     ; 002
   push dword 0x302e312f     ; 0.1/
-  push dword 0x50545448     ; PTTH
+  push dword 0x50545448     ; PTTH  
   mov al, 0x04              ; invoke SYS_WRITE (kernel opcode 4)
   mov ecx, esp              ; move address of stack arguments into ecx
   mov dl, 64                ; move 64 dec into edx lower bits (length in bytes to write)
